@@ -59,6 +59,7 @@ public class MyConstants {
 
     public static final String SEARCH_KEY="search_key";
     public static final String SEARCH_TYPE="search_type";
+    public static final String CAST_KEY="cast_key";
 
 
     public static final int  SEARCH_TYPE_MOVIE=0;

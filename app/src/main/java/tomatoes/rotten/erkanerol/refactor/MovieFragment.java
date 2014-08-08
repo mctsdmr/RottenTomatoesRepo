@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -19,6 +20,10 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import BackEnd.Actors;
 import BackEnd.Container;
 import BackEnd.Converter;
 import BackEnd.Movie;
@@ -133,17 +138,19 @@ public class MovieFragment extends Fragment implements Downloader.AsyncResponse{
         }
 
         if(movie.actors!=null){
-            TextView cast=(TextView)rootView.findViewById(R.id.cast);
-            String cast_merge="";
-            for(int i=0;i<movie.actors.length;++i){
-                cast_merge+=movie.actors[i].name;
-                if(movie.actors[i].characters!=null){
-                    cast_merge+=" ("+movie.actors[i].characters+") ";
-                }
-                if(i!=movie.actors.length-1)
-                    cast_merge+=",";
-            }
-            cast.setText(cast_merge);
+            ListView castList=(ListView)rootView.findViewById(R.id.cast);
+
+            castList.setVisibility(View.VISIBLE);
+            castList.setDivider(null);
+            castList.setDividerHeight(0);
+
+
+            ArrayList<Actors> actors=new ArrayList<Actors>(Arrays.asList(movie.actors));
+
+
+            CastListAdapter adapter=new CastListAdapter(getActivity(),actors);
+            castList.setAdapter(adapter);
+
         }
         else{
             TextView castText=(TextView)rootView.findViewById(R.id.castText);
@@ -210,6 +217,19 @@ public class MovieFragment extends Fragment implements Downloader.AsyncResponse{
                 String query=movie.links.similar+"?";
                 extras.putString(MyConstants.SEARCH_SIMILAR_REQUEST,query);
 
+                intent.putExtras(extras);
+                startActivity(intent);
+            }
+        });
+
+        TextView showAllCast=(TextView)rootView.findViewById(R.id.showAllCast);
+        showAllCast.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),CastActivity.class);
+
+                Bundle extras=new Bundle();
+                extras.putString(MyConstants.CAST_KEY,movie.links.cast);
                 intent.putExtras(extras);
                 startActivity(intent);
             }

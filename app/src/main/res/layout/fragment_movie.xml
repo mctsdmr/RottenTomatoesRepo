@@ -127,14 +127,29 @@
         />
 
 
-        <TextView
-            android:layout_marginTop="10dp"
+        <ListView
             android:id="@+id/cast"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_below="@+id/castText"
 
         />
+
+
+        <TextView
+            android:background="@color/footer"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textStyle="italic"
+            android:textColor="@color/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/showAllCast"
+            android:id="@+id/showAllCast"
+            android:layout_below="@+id/cast"
+            android:layout_centerHorizontal="true"/>
 
         <TextView
             android:layout_marginTop="10dp"
@@ -144,7 +159,7 @@
             android:textColor="@color/subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cast"
+            android:layout_below="@+id/showAllCast"
 
             />
 

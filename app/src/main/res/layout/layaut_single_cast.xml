@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:background="@color/back"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:padding="5dp"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/actorNameText"
+        android:text="@string/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/actorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Erkan"
+        android:layout_toRightOf="@id/actorNameText"/>
+
+
+    <TextView
+        android:id="@+id/characterText"
+        android:text="@string/characters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/actorNameText"/>
+
+    <TextView
+        android:id="@+id/character"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Erol"
+        android:layout_toRightOf="@+id/characterText"
+        android:layout_below="@+id/actorNameText"/>
+
+
+
+</RelativeLayout>
+
+</LinearLayout>

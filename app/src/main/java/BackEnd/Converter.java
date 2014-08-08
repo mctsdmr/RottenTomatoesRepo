@@ -138,4 +138,50 @@ public class Converter{
         }
         return  movie;
     }
+
+
+    public static ArrayList<Actors> convertActorsArray(JSONObject json,ArrayList<Actors> array){
+        try {
+            JSONArray jArray=json.getJSONArray("cast");
+            int length=jArray.length();
+
+            for(int i=0;i<length;++i){
+                JSONObject jObject=jArray.getJSONObject(i);
+                array.add(convertActors(jObject));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        return array;
+    }
+
+    private static Actors convertActors(JSONObject jObject) {
+        Actors actor=new Actors();
+        actor.id=jObject.optString("id");
+        actor.name=jObject.optString("name");
+
+
+        JSONArray charArray=jObject.optJSONArray("characters");
+        if(charArray!=null && charArray.length()>0){
+            actor.characters="";
+            int i;
+            for(i=0;i<charArray.length()-1;++i)
+                try {
+                    actor.characters+=charArray.getString(i)+",";
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            try {
+                actor.characters+=charArray.getString(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        return actor;
+    }
 }
