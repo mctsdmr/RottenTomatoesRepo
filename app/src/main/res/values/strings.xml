@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RottenTomatoes</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="more_load">Load More</string>
+    <string name="runtime"> min</string>
+    <string name="search_hint">Search Movie</string>
+    <string name="search_title">Search Movie</string>
+    <string name="title_activity_full_screen_movie">RottenTomatoes</string>
+    <string name="criticsScore">Critics Score: </string>
+    <string name="audienceScore">Audience Score: </string>
+    <string name="castText">Cast</string>
+    <string name="synopsisText">Synopsis</string>
+    <string name="imdb">IMDB</string>
+    <string name="title_activity_search_movie">Search</string>
+    <string name="action_share">Share</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="aboutText">About</string>
+    <string name="similar">Search Similar Movies</string>
+    <string name="countryText">Country Selection</string>
+
+    <string name="about">Monitise (formerly Pozitron) is the leading mobile technology company addressing enterprise needs in their pursuit of innovation. We drive business success with our full-scale solutions in commerce, banking, payments, security, and more. Bringing together top quality engineering and sophisticated design, Monitise delivers turnkey, premium products to power winning mobile strategies.  Pozitron agreed to be acquired by Monitise in February 2014.
+
+Leveraging cross-industry expertise, Monitise delivers mobile solutions that are transformative to businesses in banking, e-commerce, payments, travel, and sales force.  These innovative and comprehensive applications have been adopted by industry leaders including eBay, ING Bank, BNP Paribas, Intel and GlaxoSmithKline.</string>
+    <string name="error">Error</string>
+
+
+    <string name="connectionError">Network Connection Error</string>
+    <string name="favorites">Favorites</string>
+    <string name="genresText">Genres</string>
+    <string name="directorText">Directors</string>
+    <string name="studioText">Studio</string>
+    <string name="noResult">No Result</string>
+</resources>

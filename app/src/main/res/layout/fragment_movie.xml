@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:layout_height="match_parent" >
+<ProgressBar
+    android:id="@+id/fullProgressBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"/>
+<ScrollView
+    android:id="@+id/fullScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:src="@drawable/poster_default"
+            android:id="@+id/movie_poster"
+            android:layout_marginRight="10dp"
+            android:layout_width="70dp"
+            android:layout_height="105dp" />
+
+        <TextView
+            android:id="@+id/movie_title"
+            android:textStyle="bold"
+            android:textColor="@color/movie_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/movie_poster" />
+
+        <TextView
+            android:id="@+id/movie_runtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mpaa_rating"
+            android:layout_toRightOf="@+id/movie_poster" />
+        <TextView
+            android:id="@+id/minute"
+            android:text="@string/runtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mpaa_rating"
+            android:layout_toRightOf="@+id/movie_runtime" />
+
+        <TextView
+            android:text="MPAA"
+            android:id="@+id/mpaa_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/movie_title"
+            android:layout_toRightOf="@+id/movie_poster" />
+
+        <TextView
+            android:text="@string/criticsScore"
+            android:id="@+id/criticsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/movie_runtime"
+            android:layout_toRightOf="@+id/movie_poster" />
+
+        <TextView
+            android:id="@+id/criticsScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/movie_runtime"
+            android:layout_toRightOf="@+id/criticsText" />
+
+
+        <TextView
+            android:id="@+id/audienceText"
+            android:text="@string/audienceScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/criticsText"
+            android:layout_toRightOf="@+id/movie_poster"
+
+            />
+
+        <TextView
+            android:id="@+id/audienceScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/criticsText"
+            android:layout_toRightOf="@+id/audienceText"
+            />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/genresText"
+            android:text="@string/genresText"
+            android:textStyle="italic"
+            android:textColor="@color/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/movie_poster"
+
+         />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/genres"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/genresText"/>
+
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/castText"
+            android:text="@string/castText"
+            android:textStyle="italic"
+            android:textColor="@color/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/genres"
+
+        />
+
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/cast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/castText"
+
+        />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/directorText"
+            android:text="@string/directorText"
+            android:textStyle="italic"
+            android:textColor="@color/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cast"
+
+            />
+
+
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/director"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/directorText"
+
+            />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/synopsisText"
+            android:text="@string/synopsisText"
+            android:textStyle="italic"
+            android:textColor="@color/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/director"
+
+        />
+
+
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/synopsis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/synopsisText"
+
+        />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/studioText"
+            android:text="@string/studioText"
+            android:textStyle="italic"
+            android:textColor="@color/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/synopsis"
+
+            />
+
+
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/studio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/studioText"
+
+            />
+
+
+
+
+        <TextView
+            android:id="@+id/similar"
+            android:text="@string/similar"
+            android:textStyle="italic"
+            android:textColor="@color/subtitle"
+            android:layout_marginTop="10dp"
+            android:background="@color/footer"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/studio"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:background="@drawable/imdb"
+            android:id="@+id/imdb"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageView
+            android:id="@+id/favorite"
+            android:src="@drawable/ic_action_important"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imdb"
+            android:layout_alignParentRight="true"
+        />
+
+
+
+    </RelativeLayout>
+
+
+</ScrollView>
+
+</LinearLayout>
+

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="rotten_green">#499200</color>
+    <color name="white">#ffffff</color>
+    <color name="header">#91bd66</color>
+    <color name="footer">#86c4ed</color>
+    <color name="movie_name">#0066B0</color>
+    <color name="subtitle">#be2743</color>
+    <color name="back">#e1edd6</color>
+</resources>
