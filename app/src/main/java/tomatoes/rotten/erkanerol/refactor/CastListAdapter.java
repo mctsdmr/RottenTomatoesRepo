@@ -2,6 +2,7 @@ package tomatoes.rotten.erkanerol.refactor;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ public class CastListAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView name;
         TextView characters;
+        TextView characterText;
     }
 
 
@@ -58,7 +60,7 @@ public class CastListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.actorName);
             holder.characters = (TextView) convertView.findViewById(R.id.character);
-
+            holder.characterText = (TextView) convertView.findViewById(R.id.characterText);
             convertView.setTag(holder);
         }
         else {
@@ -68,7 +70,15 @@ public class CastListAdapter extends BaseAdapter {
         Actors actor= (Actors) getItem(position);
 
         holder.name.setText(actor.name);
-        holder.characters.setText(actor.characters);
+        if(actor.characters!=null && !"".equals(actor.characters)) {
+            holder.characters.setText(actor.characters);
+            Log.v("name: ", actor.name);
+            Log.v("character: ", "*"+actor.characters+"*");
+        }
+        else {
+            holder.characters.setVisibility(View.GONE);
+            holder.characterText.setVisibility(View.GONE);
+        }
 
 
         return convertView;

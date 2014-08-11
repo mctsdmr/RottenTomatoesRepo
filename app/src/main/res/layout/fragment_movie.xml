@@ -31,6 +31,7 @@
 
         <TextView
             android:id="@+id/movie_title"
+            android:layout_toLeftOf="@+id/imdb"
             android:textStyle="bold"
             android:textColor="@color/movie_name"
             android:layout_width="wrap_content"
