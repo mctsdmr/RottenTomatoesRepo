@@ -20,11 +20,8 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="aboutText">About</string>
-    <string name="similar">Search Similar Movies</string>
+    <string name="similar">Similar Movies</string>
     <string name="countryText">Country Selection</string>
-    <string name="about">Monitise (formerly Pozitron) is the leading mobile technology company addressing enterprise needs in their pursuit of innovation. We drive business success with our full-scale solutions in commerce, banking, payments, security, and more. Bringing together top quality engineering and sophisticated design, Monitise delivers turnkey, premium products to power winning mobile strategies.  Pozitron agreed to be acquired by Monitise in February 2014.
-
-Leveraging cross-industry expertise, Monitise delivers mobile solutions that are transformative to businesses in banking, e-commerce, payments, travel, and sales force.  These innovative and comprehensive applications have been adopted by industry leaders including eBay, ING Bank, BNP Paribas, Intel and GlaxoSmithKline.</string>
     <string name="error">Error</string>
     <string name="connectionError">Network Connection Error</string>
     <string name="favorites">Favorites</string>
@@ -36,5 +33,8 @@ Leveraging cross-industry expertise, Monitise delivers mobile solutions that are
     <string name="title_activity_cast">Full Cast</string>
     <string name="name">Name:</string>
     <string name="characters">Characters:</string>
+    <string name="companyName">Erol Software</string>
+    <string name="developer">Erkan Erol  \n Junior Android Developer \n Computer Engineering Student in Bogaizici University </string>
+    <string name="contact">Contacts \n erkanerol92@gmail.com</string>
 
 </resources>

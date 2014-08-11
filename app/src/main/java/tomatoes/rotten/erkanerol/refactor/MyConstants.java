@@ -79,7 +79,7 @@ public class MyConstants {
     public static final String MOVIE_OBJECT="movie_object";
     public static final String POSITION="position";
 
-
+    public static final int shortSynopsisLength=200;
 
 
 

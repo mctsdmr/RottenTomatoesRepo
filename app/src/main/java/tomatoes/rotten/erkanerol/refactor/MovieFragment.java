@@ -31,12 +31,13 @@ import BackEnd.Movie;
 /**
  * Created by erkanerol on 8/5/14.
  */
-public class MovieFragment extends Fragment implements Downloader.AsyncResponse{
+public class MovieFragment extends Fragment implements Downloader.AsyncResponse, SimilarFragment.SimilarInterface {
 
     public Movie movie;
     public Movie detailedMovie;
     public View rootView;
     public int downloadState=MyConstants.DOWNLOAD_STATE_BEFORE;
+    SimilarFragment similar;
 
     public MovieFragment() {
         super();
@@ -56,6 +57,8 @@ public class MovieFragment extends Fragment implements Downloader.AsyncResponse{
         downloader.execute(request);
         downloadState=MyConstants.DOWNLOAD_STATE_WORK;
 
+
+
     }
 
     @Override
@@ -64,6 +67,18 @@ public class MovieFragment extends Fragment implements Downloader.AsyncResponse{
         if(downloadState==MyConstants.DOWNLOAD_STATE_END){
             change();
             onPlaceDetailedMovie();
+        }
+        if (savedInstanceState == null) {
+
+            similar=new SimilarFragment();
+            similar.delegate=this;
+            Bundle extras=new Bundle();
+            extras.putString(MyConstants.SEARCH_SIMILAR_REQUEST,movie.links.similar+"?");
+            similar.setArguments(extras);
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.similarFragment, similar, "fragment")
+                    .commit();
         }
         return rootView;
     }
@@ -202,25 +217,9 @@ public class MovieFragment extends Fragment implements Downloader.AsyncResponse{
             imageView.setOnClickListener(favorite);
         }
         else{
+
             imageView.setOnClickListener(notFavorite);
         }
-
-
-        TextView similar=(TextView)rootView.findViewById(R.id.similar);
-        similar.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),SearchMovieActivity.class);
-
-                Bundle extras=new Bundle();
-                extras.putInt(MyConstants.SEARCH_TYPE,MyConstants.SEARCH_TYPE_SIMILAR);
-                String query=movie.links.similar+"?";
-                extras.putString(MyConstants.SEARCH_SIMILAR_REQUEST,query);
-
-                intent.putExtras(extras);
-                startActivity(intent);
-            }
-        });
 
         TextView showAllCast=(TextView)rootView.findViewById(R.id.showAllCast);
         showAllCast.setOnClickListener( new View.OnClickListener() {
@@ -278,6 +277,10 @@ public class MovieFragment extends Fragment implements Downloader.AsyncResponse{
         scroll.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void removeFragment() {
+        getChildFragmentManager().beginTransaction().remove(similar);
+    }
 }
 
 

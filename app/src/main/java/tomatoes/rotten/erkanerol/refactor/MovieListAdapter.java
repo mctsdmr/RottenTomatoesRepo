@@ -51,6 +51,7 @@ public class MovieListAdapter extends BaseAdapter {
         TextView mpaa;
         TextView duration;
         TextView synopsis;
+        ImageView favorite;
     }
 
     @Override
@@ -67,7 +68,7 @@ public class MovieListAdapter extends BaseAdapter {
             holder.mpaa= (TextView) convertView.findViewById(R.id.mpaa);
             holder.duration= (TextView) convertView.findViewById(R.id.duration);
             holder.synopsis= (TextView) convertView.findViewById(R.id.shortSynopsis);
-
+            holder.favorite= (ImageView)convertView.findViewById(R.id.favoriteShort);
             convertView.setTag(holder);
         }
         else {
@@ -109,8 +110,77 @@ public class MovieListAdapter extends BaseAdapter {
                 .into(holder.poster);
 
         if(!"".equals(movie.synopsis)){
-            holder.synopsis.setText(movie.synopsis);
+            if(movie.synopsis.length()>MyConstants.shortSynopsisLength){
+                holder.synopsis.setText(movie.synopsis.substring(0,MyConstants.shortSynopsisLength)+"...");
+            }
+            else
+                holder.synopsis.setText(movie.synopsis);
         }
+
+
+
+        if(DbManager.search(movie)){
+            holder.favorite.setImageDrawable(context.getResources().getDrawable(R.drawable.favorite));
+            favorite fav=new favorite(movie);
+            holder.favorite.setOnClickListener(fav);
+        }
+        else{
+            holder.favorite.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_important));
+            notFavorite not=new notFavorite(movie);
+            holder.favorite.setOnClickListener(not);
+        }
+
+
         return convertView;
     }
+
+    public class favorite implements View.OnClickListener {
+
+        Movie movie;
+
+        public favorite(Movie movie){
+            this.movie=movie;
+        }
+
+
+        public void process(View v) {
+            ImageView imageView=(ImageView)v;
+            DbManager.delete(movie);
+            imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_important));
+
+
+            notFavorite not=new notFavorite(movie);
+            imageView.setOnClickListener(not);
+        }
+
+        @Override
+        public void onClick(View v) {
+            process(v);
+        }
+    };
+
+    public class notFavorite implements View.OnClickListener {
+
+        Movie movie;
+        public notFavorite(Movie movie){
+            this.movie=movie;
+        }
+
+        public void process(View v) {
+            ImageView imageView=(ImageView)v;
+            DbManager.add(movie);
+            imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.favorite));
+
+            favorite fav=new favorite(movie);
+            imageView.setOnClickListener(fav);
+        }
+
+        @Override
+        public void onClick(View v) {
+            process(v);
+        }
+    };
+
+
+
 }

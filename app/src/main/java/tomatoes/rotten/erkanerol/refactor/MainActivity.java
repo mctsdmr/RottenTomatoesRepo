@@ -219,7 +219,7 @@ public class MainActivity extends FragmentActivity {
             case 3:
                 Dialog about=new Dialog(this);
                 about.setContentView(R.layout.layout_about);
-                about.setTitle(getResources().getString(R.string.aboutText));
+                about.setTitle(getResources().getString(R.string.companyName));
                 about.show();
                 break;
         }

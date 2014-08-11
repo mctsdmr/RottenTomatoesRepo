@@ -73,7 +73,7 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
         mListView.setDividerHeight(15);
 
         adapter = new MovieListAdapter(getActivity(), movies);
-        mListView.setAdapter(adapter);
+
 
         mListView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
@@ -100,6 +100,8 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
         else if(isTypeTwo()){
             onCreateViewForTypeTwo();
         }
+
+        mListView.setAdapter(adapter);
         fragmentState = MyConstants.FRAGMENT_STATE_ONVIEW;
         return rootView;
 
@@ -150,12 +152,12 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
             String header=getResources().getStringArray(R.array.headers)[type];
             headerText.setText(header);
 
-            if(type==0){
+            if(type==0 || type==MyConstants.MAIN_PAGE_COUNT){
                 ImageView image=(ImageView)headerView.findViewById(R.id.left);
                 image.setVisibility(View.INVISIBLE);
             }
 
-            if(type==MyConstants.MAIN_PAGE_COUNT-1){
+            if(type==MyConstants.MAIN_PAGE_COUNT-1 || type==MyConstants.MAIN_PAGE_COUNT*2-1){
                 ImageView image=(ImageView)headerView.findViewById(R.id.right);
                 image.setVisibility(View.INVISIBLE);
             }
