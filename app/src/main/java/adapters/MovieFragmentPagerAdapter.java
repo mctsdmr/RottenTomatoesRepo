@@ -1,4 +1,4 @@
-package tomatoes.rotten.erkanerol.refactor;
+package adapters;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,7 +7,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
-import BackEnd.Movie;
+import backend.Movie;
+import fragments.MovieFragment;
+import tomatoes.rotten.erkanerol.refactor.MyConstants;
 
 /**
  * Created by erkanerol on 8/5/14.

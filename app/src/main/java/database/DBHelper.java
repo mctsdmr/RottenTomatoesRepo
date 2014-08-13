@@ -1,4 +1,4 @@
-package tomatoes.rotten.erkanerol.refactor;
+package database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,8 +15,8 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import BackEnd.Container;
-import BackEnd.Movie;
+import backend.Container;
+import backend.Movie;
 
 /**
  * Created by erkanerol on 8/5/14.

@@ -1,4 +1,4 @@
-package tomatoes.rotten.erkanerol.refactor;
+package fragments;
 
 
 import android.content.Intent;
@@ -23,10 +23,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import BackEnd.Actors;
-import BackEnd.Container;
-import BackEnd.Converter;
-import BackEnd.Movie;
+import adapters.CastListAdapter;
+import backend.Actors;
+import backend.Converter;
+import backend.Downloader;
+import backend.Movie;
+import database.DbManager;
+import tomatoes.rotten.erkanerol.refactor.CastActivity;
+import tomatoes.rotten.erkanerol.refactor.MyConstants;
+import tomatoes.rotten.erkanerol.refactor.R;
 
 /**
  * Created by erkanerol on 8/5/14.
@@ -36,7 +41,7 @@ public class MovieFragment extends Fragment implements Downloader.AsyncResponse,
     public Movie movie;
     public Movie detailedMovie;
     public View rootView;
-    public int downloadState=MyConstants.DOWNLOAD_STATE_BEFORE;
+    public int downloadState= MyConstants.DOWNLOAD_STATE_BEFORE;
     SimilarFragment similar;
 
     public MovieFragment() {
@@ -53,7 +58,7 @@ public class MovieFragment extends Fragment implements Downloader.AsyncResponse,
                         MyConstants.MOVIE_DETAIL_REQUEST_END+
                         MyConstants.API_KEY;
         Downloader downloader=new Downloader();
-        downloader.delegate=this;
+        downloader.setDelegate(this);
         downloader.execute(request);
         downloadState=MyConstants.DOWNLOAD_STATE_WORK;
 
@@ -225,7 +230,7 @@ public class MovieFragment extends Fragment implements Downloader.AsyncResponse,
         showAllCast.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),CastActivity.class);
+                Intent intent=new Intent(getActivity(), CastActivity.class);
 
                 Bundle extras=new Bundle();
                 extras.putString(MyConstants.CAST_KEY,movie.links.cast);

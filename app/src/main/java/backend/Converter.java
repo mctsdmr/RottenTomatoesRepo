@@ -1,6 +1,4 @@
-package BackEnd;
-
-import android.util.Log;
+package backend;
 
 import org.json.JSONArray;
 import org.json.JSONException;

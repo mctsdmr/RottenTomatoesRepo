@@ -1,11 +1,11 @@
-package tomatoes.rotten.erkanerol.refactor;
+package database;
 
 import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
 
-import BackEnd.Movie;
+import backend.Movie;
 
 /**
  * Created by erkanerol on 8/6/14.

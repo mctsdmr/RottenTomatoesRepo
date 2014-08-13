@@ -65,6 +65,7 @@ public class MyConstants {
     public static final int  SEARCH_TYPE_MOVIE=0;
     public static final int SEARCH_TYPE_SIMILAR=1;
     public static final int SEARCH_TYPE_FAVORITES=2;
+    public static final int SEARCH_TYPE_NOSEARCH=3;
     public static final String SEARCH_SIMILAR_REQUEST="search_similar_request";
 
 

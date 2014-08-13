@@ -1,35 +1,35 @@
 package tomatoes.rotten.erkanerol.refactor;
 
 import android.app.Activity;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import BackEnd.Actors;
-import BackEnd.Converter;
+import backend.Actors;
+import backend.Converter;
+import adapters.CastListAdapter;
+import backend.Downloader;
+import tomatoes.rotten.erkanerol.refactor.MyConstants;
 import tomatoes.rotten.erkanerol.refactor.R;
 
-public class CastActivity extends Activity implements Downloader.AsyncResponse{
+public class CastActivity extends Activity implements Downloader.AsyncResponse {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cast);
-        getActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.rotten_green)));
 
         Bundle args=getIntent().getExtras();
         String request=args.getString(MyConstants.CAST_KEY);
         Downloader downloader=new Downloader();
-        downloader.delegate=this;
+        downloader.setDelegate(this);
         downloader.execute(request+"?"+MyConstants.API_KEY);
 
     }

@@ -1,9 +1,6 @@
-package tomatoes.rotten.erkanerol.refactor;
+package fragments;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -19,9 +15,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import BackEnd.Container;
-import BackEnd.Converter;
-import BackEnd.Movie;
+import tomatoes.rotten.erkanerol.refactor.FullScreenMovieActivity;
+import backend.Container;
+import backend.Converter;
+import backend.Downloader;
+import backend.Movie;
+import tomatoes.rotten.erkanerol.refactor.MyConstants;
+import tomatoes.rotten.erkanerol.refactor.R;
 
 
 public class SimilarFragment extends Fragment implements Downloader.AsyncResponse {
@@ -42,7 +42,7 @@ public class SimilarFragment extends Fragment implements Downloader.AsyncRespons
         request+=MyConstants.API_KEY;
 
         Downloader downloader=new Downloader();
-        downloader.delegate=this;
+        downloader.setDelegate(this);
         downloader.execute(request);
     }
 
@@ -79,7 +79,7 @@ public class SimilarFragment extends Fragment implements Downloader.AsyncRespons
                 image.setOnClickListener(new View.OnClickListener() {
                                              @Override
                                              public void onClick(View v) {
-                                                 Intent movieActivity=new Intent(getActivity(),FullScreenMovieActivity.class);
+                                                 Intent movieActivity=new Intent(getActivity(), FullScreenMovieActivity.class);
                                                  Bundle extras=new Bundle();
                                                  Container container1=new Container(movies);
                                                  extras.putSerializable(MyConstants.MOVIE_ARRAY,container1);

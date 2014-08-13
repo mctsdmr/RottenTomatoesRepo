@@ -1,9 +1,12 @@
-package tomatoes.rotten.erkanerol.refactor;
+package adapters;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import fragments.MovieListFragment;
+import tomatoes.rotten.erkanerol.refactor.MyConstants;
 
 
 public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
@@ -39,4 +42,6 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return MyConstants.MAIN_PAGE_COUNT;
     }
+
+
 }

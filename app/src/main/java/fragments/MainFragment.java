@@ -1,4 +1,4 @@
-package tomatoes.rotten.erkanerol.refactor;
+package fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
+import adapters.MainFragmentPagerAdapter;
+import tomatoes.rotten.erkanerol.refactor.MyConstants;
+import tomatoes.rotten.erkanerol.refactor.R;
 
 
 public class MainFragment extends Fragment {
@@ -46,6 +48,4 @@ public class MainFragment extends Fragment {
         mViewPager = (ViewPager) getActivity().findViewById(R.id.pager_middle);
         mViewPager.setAdapter(pagerAdapter);
     }
-
-
 }

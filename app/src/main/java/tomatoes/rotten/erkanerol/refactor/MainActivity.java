@@ -9,12 +9,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,15 +27,19 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import BackEnd.Container;
+import database.DbManager;
+import fragments.MainFragment;
+import tomatoes.rotten.erkanerol.refactor.MyConstants;
+import tomatoes.rotten.erkanerol.refactor.R;
+import tomatoes.rotten.erkanerol.refactor.SearchMovieActivity;
 
 
-public class MainActivity extends FragmentActivity {
+public class    MainActivity extends FragmentActivity {
 
     public MainFragment movies;
     public MainFragment dvds;
 
-    public int currentMainFragment=MyConstants.MAIN_FRAGMENT_MOVIE;
+    public int currentMainFragment= MyConstants.MAIN_FRAGMENT_MOVIE;
 
     private String id_name="tomatoes.rotten.erkanerol.refactor";
 
@@ -56,7 +60,7 @@ public class MainActivity extends FragmentActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, movies, "fragment")
+                    .add(R.id.container, movies, "current")
                     .commit();
         }
 
@@ -92,7 +96,6 @@ public class MainActivity extends FragmentActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, actions);
 
         getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        getActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.rotten_green)));
 
         ActionBar.OnNavigationListener navigationListener = new ActionBar.OnNavigationListener() {
             @Override
@@ -124,47 +127,14 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        SearchManager searchManager =  (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =  (SearchView) menu.findItem(R.id.search).getActionView();
-        final Activity activity=this;
-        searchView.setOnQueryTextListener( new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                query=query.replaceAll("\\s","+");
-
-                Intent intent=new Intent(activity,SearchMovieActivity.class);
-
-                Bundle extras=new Bundle();
-
-                extras.putString(MyConstants.SEARCH_KEY,query);
-                extras.putInt(MyConstants.SEARCH_TYPE, MyConstants.SEARCH_TYPE_MOVIE);
-
-                intent.putExtras(extras);
-                startActivity(intent);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-        return true;
-    }
-
-
     private void change(int itemPosition) {
         if(itemPosition==0)
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, movies, "fragment")
+                    .replace(R.id.container, movies, "current")
                     .commit();
         else
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, dvds, "fragment")
+                    .replace(R.id.container, dvds, "current")
                     .commit();
     }
 
@@ -179,6 +149,14 @@ public class MainActivity extends FragmentActivity {
                 startActivity(favorites);
                 break;
             case 1:
+                Intent noSearch=new Intent(this,SearchMovieActivity.class);
+                Bundle arguments=new Bundle();
+                arguments.putInt(MyConstants.SEARCH_TYPE, MyConstants.SEARCH_TYPE_NOSEARCH);
+                noSearch.putExtras(arguments);
+                startActivity(noSearch);
+                break;
+
+            case 2:
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("market://details?id=" + id_name));
                 if (!MyStartActivity(intent)) {
@@ -188,7 +166,7 @@ public class MainActivity extends FragmentActivity {
                     }
                 }
                 break;
-            case 2:
+            case 3:
                 final Dialog country=new Dialog(this);
                 country.setContentView(R.layout.layout_country);
 
@@ -216,13 +194,14 @@ public class MainActivity extends FragmentActivity {
                 country.setTitle(getResources().getString(R.string.countryText));
                 country.show();
                 break;
-            case 3:
+            case 4:
                 Dialog about=new Dialog(this);
                 about.setContentView(R.layout.layout_about);
                 about.setTitle(getResources().getString(R.string.companyName));
                 about.show();
                 break;
         }
+        mDrawerLayout.closeDrawers();
         return;
     }
 

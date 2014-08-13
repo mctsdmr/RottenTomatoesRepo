@@ -1,4 +1,4 @@
-package tomatoes.rotten.erkanerol.refactor;
+package adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,12 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import BackEnd.Actors;
+import backend.Actors;
+import tomatoes.rotten.erkanerol.refactor.R;
 
 /**
  * Created by erkanerol on 8/8/14.

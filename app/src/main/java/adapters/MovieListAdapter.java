@@ -1,4 +1,4 @@
-package tomatoes.rotten.erkanerol.refactor;
+package adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +13,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import BackEnd.Movie;
+import backend.Movie;
+import database.DbManager;
+import tomatoes.rotten.erkanerol.refactor.MyConstants;
+import tomatoes.rotten.erkanerol.refactor.R;
 
 public class MovieListAdapter extends BaseAdapter {
     LayoutInflater mInflater;
@@ -110,7 +113,7 @@ public class MovieListAdapter extends BaseAdapter {
                 .into(holder.poster);
 
         if(!"".equals(movie.synopsis)){
-            if(movie.synopsis.length()>MyConstants.shortSynopsisLength){
+            if(movie.synopsis.length()> MyConstants.shortSynopsisLength){
                 holder.synopsis.setText(movie.synopsis.substring(0,MyConstants.shortSynopsisLength)+"...");
             }
             else

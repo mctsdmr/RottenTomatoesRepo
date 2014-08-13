@@ -1,18 +1,19 @@
 package tomatoes.rotten.erkanerol.refactor;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import java.util.ArrayList;
 
-import BackEnd.Container;
-import BackEnd.Movie;
+import backend.Container;
+import backend.Movie;
+import adapters.MovieFragmentPagerAdapter;
+import tomatoes.rotten.erkanerol.refactor.MyConstants;
+import tomatoes.rotten.erkanerol.refactor.R;
 
 public class FullScreenMovieActivity extends FragmentActivity {
 
@@ -22,7 +23,6 @@ public class FullScreenMovieActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen_movie);
-        getActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.rotten_green)));
 
         Bundle extras=getIntent().getExtras();
         movies=((Container)extras.getSerializable(MyConstants.MOVIE_ARRAY)).movies;

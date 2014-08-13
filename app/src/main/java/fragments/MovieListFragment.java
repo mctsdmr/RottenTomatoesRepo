@@ -1,11 +1,16 @@
-package tomatoes.rotten.erkanerol.refactor;
+package fragments;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -15,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +28,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import BackEnd.Container;
-import BackEnd.Converter;
-import BackEnd.Movie;
+import adapters.MovieListAdapter;
+import backend.Container;
+import backend.Converter;
+import backend.Downloader;
+import backend.Movie;
+import database.DbManager;
+import tomatoes.rotten.erkanerol.refactor.FullScreenMovieActivity;
+import tomatoes.rotten.erkanerol.refactor.MyConstants;
+import tomatoes.rotten.erkanerol.refactor.R;
 
 
 public class MovieListFragment extends Fragment implements Downloader.AsyncResponse {
@@ -50,6 +62,7 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
@@ -59,14 +72,16 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
             download();
         }
         else{
-            movies=DbManager.favorites;
+            movies= DbManager.favorites;
         }
+
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        if(type<8)
+            setHasOptionsMenu(true);
         rootView = inflater.inflate(R.layout.fragment_movie_list, container, false);
 
         mListView = (ListView) rootView.findViewById(R.id.movie_list);
@@ -79,7 +94,7 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent movieActivity=new Intent(getActivity(),FullScreenMovieActivity.class);
+                Intent movieActivity=new Intent(getActivity(), FullScreenMovieActivity.class);
                 Bundle extras=new Bundle();
                 Container container1=new Container(movies);
                 extras.putSerializable(MyConstants.MOVIE_ARRAY,container1);
@@ -103,13 +118,70 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
 
         mListView.setAdapter(adapter);
         fragmentState = MyConstants.FRAGMENT_STATE_ONVIEW;
+
         return rootView;
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Log.v("burada","01");
+        inflater.inflate(R.menu.main, menu);
+        Log.v("burada","0");
+        SearchManager searchManager =  (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =  (SearchView) menu.findItem(R.id.mainSearch).getActionView();
+
+        searchView.setOnQueryTextListener( new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                ArrayList<Movie> newArray=search(movies,query);
+                MovieListAdapter newAdapter = new MovieListAdapter(getActivity(), newArray);
+                mListView.setAdapter(newAdapter);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.v("burada", "2");
+                return false;
+            }
+
+
+        });
+
+        MenuItem menuItem = menu.findItem(R.id.mainSearch);
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                Log.v("burada", "3");
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                Log.v("burada", "4");
+                mListView.setAdapter(adapter);
+                return true;
+            }
+        });
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    private ArrayList<Movie> search(ArrayList<Movie> movies, String query) {
+        ArrayList<Movie> newArray=new ArrayList<Movie>();
+        for(int i=0;i<movies.size();++i){
+            if(movies.get(i).title.contains(query)){
+                newArray.add(movies.get(i));
+            }
+
+        }
+        return newArray;
+    }
+
     public void download(){
         Downloader downloader = new Downloader();
-        downloader.delegate = this;
+        downloader.setDelegate(this);
         String request = createRequest();
         downloader.execute(request);
         downloadState = MyConstants.DOWNLOAD_STATE_WORK;
@@ -179,12 +251,6 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
                     MyConstants.PAGE+
                     page;
             return request;
-
-        }
-        if(type==MyConstants.FRAGGMENT_TYPE_SIMILAR){
-           String request=  getArguments().getString(MyConstants.SEARCH_SIMILAR_REQUEST)+
-                            MyConstants.API_KEY;
-           return request;
 
         }
         if (isTypeOne()) {
@@ -257,6 +323,11 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
 
             if (fragmentState == MyConstants.FRAGMENT_STATE_ONVIEW) {
                 adapter.notifyDataSetChanged();
+
+                int index = mListView.getFirstVisiblePosition();
+                View v = mListView.getChildAt(0);
+                int top = (v == null) ? 0 : v.getTop();
+                mListView.setSelectionFromTop(index, top);
             }
             downloadState = MyConstants.DOWNLOAD_STATE_END;
             return;
@@ -334,13 +405,19 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
     public void onPause() {
         super.onPause();
         fragmentState = MyConstants.FRAGMENT_STATE_STOP;
+        Log.v("onPause",type+"");
+    }
+
+    @Override
+    public void onResume() {
+        Log.v("onResume",type+"");
+        super.onResume();
     }
 
     public boolean isTypeOne(){
         if (type == MyConstants.FRAGMENT_TYPE_BOX_OFFICE ||
                 type == MyConstants.FRAGGMENT_TYPE_OPENING_MOVIES ||
-                type == MyConstants.FRAGGMENT_TYPE_TOP_RENTALS ||
-                type==MyConstants.FRAGGMENT_TYPE_SIMILAR) {
+                type == MyConstants.FRAGGMENT_TYPE_TOP_RENTALS) {
             return true;
         }
         else
@@ -360,4 +437,6 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
         else
             return false;
     }
+
+
 }
