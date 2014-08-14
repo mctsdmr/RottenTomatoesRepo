@@ -1,6 +1,5 @@
 package fragments;
 
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +30,7 @@ import java.util.ArrayList;
 import adapters.MovieListAdapter;
 import backend.Container;
 import backend.Converter;
-import backend.Downloader;
+import backend.GenericDownloader;
 import backend.Movie;
 import database.DbManager;
 import tomatoes.rotten.erkanerol.refactor.FullScreenMovieActivity;
@@ -39,7 +38,7 @@ import tomatoes.rotten.erkanerol.refactor.MyConstants;
 import tomatoes.rotten.erkanerol.refactor.R;
 
 
-public class MovieListFragment extends Fragment implements Downloader.AsyncResponse {
+public class MovieListFragment extends Fragment implements GenericDownloader.AsyncResponse {
 
     public int type;
     public int page=1;
@@ -171,7 +170,7 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
     private ArrayList<Movie> search(ArrayList<Movie> movies, String query) {
         ArrayList<Movie> newArray=new ArrayList<Movie>();
         for(int i=0;i<movies.size();++i){
-            if(movies.get(i).title.contains(query)){
+            if(movies.get(i).title.toLowerCase().contains(query.toLowerCase())){
                 newArray.add(movies.get(i));
             }
 
@@ -180,11 +179,13 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
     }
 
     public void download(){
-        Downloader downloader = new Downloader();
+
+        GenericDownloader downloader=new GenericDownloader();
+        downloader.setType(GenericDownloader.HttpType.GET);
         downloader.setDelegate(this);
-        String request = createRequest();
-        downloader.execute(request);
+        createRequest(downloader);
         downloadState = MyConstants.DOWNLOAD_STATE_WORK;
+        downloader.execute();
     }
 
     public void onCreateViewForTypeOne() {
@@ -240,53 +241,40 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
 
 
 
-    public String createRequest() {
+    public void createRequest(GenericDownloader downloader) {
+
+        downloader.setRequestUrl(MyConstants.API_REQUEST[type]);
+        downloader.setParameter(MyConstants.GET_API_KEY,MyConstants.GET_API_VALUE);
+
         if(type==MyConstants.FRAGGMENT_TYPE_SEARCH){
             String key=getArguments().getString(MyConstants.SEARCH_KEY);
-            String request=     MyConstants.API_REQUEST[type]+
-                    key+
-                    MyConstants.API_KEY+
-                    MyConstants.PAGE_LIMIT+
-                    MyConstants.PAGE_SIZE_TYPE2+
-                    MyConstants.PAGE+
-                    page;
-            return request;
-
+            downloader.setParameter(MyConstants.GET_SEARCH_KEY,key);
+            downloader.setParameter(MyConstants.GET_PAGE_LIMIT,""+MyConstants.PAGE_SIZE_TYPE2);
+            downloader.setParameter(MyConstants.PAGE,page+"");
+            return;
         }
+
         if (isTypeOne()) {
-
-            String request =    MyConstants.API_REQUEST[type] +
-                                MyConstants.API_KEY+
-                                MyConstants.LIMIT+
-                                MyConstants.PAGE_SIZE_TYPE1+
-                                MyConstants.COUNTRY_TEXT+
-                                MyConstants.COUNTRY_SELECTED;
-            return request;
+            downloader.setParameter(MyConstants.GET_LIMIT,""+MyConstants.PAGE_SIZE_TYPE1);
+            downloader.setParameter(MyConstants.GET_COUNTRY_TEXT,MyConstants.COUNTRY_SELECTED);
+            return;
         }
+
         else if(isTypeTwo()){
-
-            String request =    MyConstants.API_REQUEST[type] +
-                                MyConstants.API_KEY+
-                                MyConstants.PAGE_LIMIT+
-                                MyConstants.PAGE_SIZE_TYPE2+
-                                MyConstants.PAGE+
-                                page;
-            return request;
+            downloader.setParameter(MyConstants.GET_PAGE_LIMIT,""+MyConstants.PAGE_SIZE_TYPE2);
+            downloader.setParameter(MyConstants.PAGE,page+"");
+            return ;
         }
-
-        String request = MyConstants.API_REQUEST[type] + MyConstants.API_KEY;
-        page++;
-        return request;
     }
 
+
     @Override
-    public void downloadFinish(JSONObject jSONResponse, int successFlag,int total) {
-        if (successFlag == MyConstants.DOWNLOAD_FLAG_CONNECTION_ERROR) {
+    public void downloadFinish(JSONObject jSONResponse, GenericDownloader.ResultType resultType1) {
+        if(resultType1== GenericDownloader.ResultType.HTTP_ERROR){
             Toast.makeText(getActivity(), getResources().getString(R.string.connectionError), Toast.LENGTH_LONG).show();
             return;
         }
-        if (successFlag == MyConstants.DOWNLOAD_FLAG_CORRECT) {
-
+        if(resultType1== GenericDownloader.ResultType.SUCCESSFUL){
             convertJSON(jSONResponse);
             page++;
 
@@ -303,8 +291,8 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
             }
             else if(isTypeTwo()){
 
-                if(total!=0){
-                    this.total=total;
+                if( jSONResponse.optInt("total")!=0){
+                    this.total=jSONResponse.optInt("total");
                 }
                 if(movies.size()==0){
                     footerError();
@@ -331,8 +319,8 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
             }
             downloadState = MyConstants.DOWNLOAD_STATE_END;
             return;
-        }
 
+        }
 
     }
 
@@ -410,14 +398,14 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
 
     @Override
     public void onResume() {
-        Log.v("onResume",type+"");
+        adapter.notifyDataSetChanged();
         super.onResume();
     }
 
     public boolean isTypeOne(){
         if (type == MyConstants.FRAGMENT_TYPE_BOX_OFFICE ||
-                type == MyConstants.FRAGGMENT_TYPE_OPENING_MOVIES ||
-                type == MyConstants.FRAGGMENT_TYPE_TOP_RENTALS) {
+                type == MyConstants.FRAGMENT_TYPE_OPENING_MOVIES ||
+                type == MyConstants.FRAGMENT_TYPE_TOP_RENTALS) {
             return true;
         }
         else
@@ -425,8 +413,8 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
     }
 
     public boolean isTypeTwo(){
-        if(type==MyConstants.FRAGGMENT_TYPE_IN_THEATERS ||
-                type==MyConstants.FRAGGMENT_TYPE_UPCOMING_MOVIES ||
+        if(type==MyConstants.FRAGMENT_TYPE_IN_THEATERS ||
+                type==MyConstants.FRAGMENT_TYPE_UPCOMING_MOVIES ||
                 type==MyConstants.FRAGGMENT_TYPE_CURRENT_RELEASES ||
                 type==MyConstants.FRAGGMENT_TYPE_NEW_DVD ||
                 type==MyConstants.FRAGGMENT_TYPE_UPCOMING_DVD ||
@@ -437,6 +425,7 @@ public class MovieListFragment extends Fragment implements Downloader.AsyncRespo
         else
             return false;
     }
+
 
 
 }

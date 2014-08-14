@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import backend.Actors;
 import backend.Converter;
 import adapters.CastListAdapter;
-import backend.Downloader;
+import backend.GenericDownloader;
 import tomatoes.rotten.erkanerol.refactor.MyConstants;
 import tomatoes.rotten.erkanerol.refactor.R;
 
-public class CastActivity extends Activity implements Downloader.AsyncResponse {
+public class CastActivity extends Activity implements GenericDownloader.AsyncResponse {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +28,17 @@ public class CastActivity extends Activity implements Downloader.AsyncResponse {
 
         Bundle args=getIntent().getExtras();
         String request=args.getString(MyConstants.CAST_KEY);
-        Downloader downloader=new Downloader();
+
+        /*Downloader downloader=new Downloader();
         downloader.setDelegate(this);
-        downloader.execute(request+"?"+MyConstants.API_KEY);
+        downloader.execute(request+"?"+MyConstants.API_KEY);*/
+
+        GenericDownloader downloader=new GenericDownloader();
+        downloader.setType(GenericDownloader.HttpType.GET);
+        downloader.setRequestUrl(request);
+        downloader.setParameter(MyConstants.GET_API_KEY,MyConstants.GET_API_VALUE);
+        downloader.setDelegate(this);
+        downloader.execute();
 
     }
 
@@ -47,7 +55,7 @@ public class CastActivity extends Activity implements Downloader.AsyncResponse {
         int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
-
+/*
     @Override
     public void downloadFinish(JSONObject jSONResponse, int successFlag, int total) {
         ProgressBar progressBar= (ProgressBar) findViewById(R.id.castDownloadProgress);
@@ -63,5 +71,25 @@ public class CastActivity extends Activity implements Downloader.AsyncResponse {
 
         CastListAdapter adapter=new CastListAdapter(this,actors);
         castList.setAdapter(adapter);
+    }
+    */
+
+    @Override
+    public void downloadFinish(JSONObject jSONResponse, GenericDownloader.ResultType resultType1) {
+        if(resultType1== GenericDownloader.ResultType.SUCCESSFUL){
+            ProgressBar progressBar= (ProgressBar) findViewById(R.id.castDownloadProgress);
+            progressBar.setVisibility(View.GONE);
+
+            ListView castList=(ListView)findViewById(R.id.castList);
+            castList.setVisibility(View.VISIBLE);
+            castList.setDivider(null);
+            castList.setDividerHeight(0);
+
+            ArrayList<Actors> actors=new ArrayList<Actors>();
+            Converter.convertActorsArray(jSONResponse,actors);
+
+            CastListAdapter adapter=new CastListAdapter(this,actors);
+            castList.setAdapter(adapter);
+        }
     }
 }
