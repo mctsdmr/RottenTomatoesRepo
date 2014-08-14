@@ -106,7 +106,7 @@ public class DBHelper extends SQLiteOpenHelper {
             ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(b));
             Object object = in.readObject();
             in.close();
-
+            Log.v("normal","normal");
             return object;
         } catch(ClassNotFoundException cnfe) {
             Log.e("deserializeObject", "class not found error", cnfe);
@@ -117,5 +117,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
             return null;
         }
+
+
     }
 }

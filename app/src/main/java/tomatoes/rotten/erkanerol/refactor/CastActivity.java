@@ -16,8 +16,6 @@ import backend.Actors;
 import backend.Converter;
 import adapters.CastListAdapter;
 import backend.GenericDownloader;
-import tomatoes.rotten.erkanerol.refactor.MyConstants;
-import tomatoes.rotten.erkanerol.refactor.R;
 
 public class CastActivity extends Activity implements GenericDownloader.AsyncResponse {
 

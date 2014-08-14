@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import backend.Container;
 import backend.Movie;
 import adapters.MovieFragmentPagerAdapter;
-import tomatoes.rotten.erkanerol.refactor.MyConstants;
-import tomatoes.rotten.erkanerol.refactor.R;
 
 public class FullScreenMovieActivity extends FragmentActivity {
 
