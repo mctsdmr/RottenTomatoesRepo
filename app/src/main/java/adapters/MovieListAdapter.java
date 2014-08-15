@@ -122,7 +122,7 @@ public class MovieListAdapter extends BaseAdapter {
 
 
 
-        if(DbManager.search(movie)){
+        if(DbManager.search(movie)>=0){
             holder.favorite.setImageDrawable(context.getResources().getDrawable(R.drawable.favorite));
             favorite fav=new favorite(movie);
             holder.favorite.setOnClickListener(fav);

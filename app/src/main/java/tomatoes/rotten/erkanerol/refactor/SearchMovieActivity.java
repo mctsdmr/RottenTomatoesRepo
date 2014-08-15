@@ -18,9 +18,11 @@ public class SearchMovieActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_search_movie);
-        Intent intent=getIntent();
-        Bundle extras=intent.getExtras();
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
 
         MovieListFragment fragment=new MovieListFragment();
         Bundle args = new Bundle();
@@ -33,11 +35,13 @@ public class SearchMovieActivity extends FragmentActivity {
         }
 
         if(searchType==MyConstants.SEARCH_TYPE_MOVIE){
+
             getActionBar().setTitle(getResources().getString(R.string.search_title));
+
             args.putInt(MyConstants.LIST_FRAGMENT_TYPE, MyConstants.FRAGGMENT_TYPE_SEARCH);
             args.putString(MyConstants.SEARCH_KEY, extras.getString(MyConstants.SEARCH_KEY));
-        }
-        else if(searchType==MyConstants.SEARCH_TYPE_FAVORITES){
+
+        } else if (searchType == MyConstants.SEARCH_TYPE_FAVORITES) {
             getActionBar().setTitle(getResources().getString(R.string.favorites));
             args.putInt(MyConstants.LIST_FRAGMENT_TYPE,MyConstants.FRAGGMENT_TYPE_FAVORITES);
         }
@@ -61,12 +65,13 @@ public class SearchMovieActivity extends FragmentActivity {
 
                     Intent intent=new Intent(activity,SearchMovieActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    Bundle extras=new Bundle();
 
+                    Bundle extras=new Bundle();
                     extras.putString(MyConstants.SEARCH_KEY,query);
                     extras.putInt(MyConstants.SEARCH_TYPE, MyConstants.SEARCH_TYPE_MOVIE);
 
                     intent.putExtras(extras);
+
                     startActivity(intent);
                     return true;
                 }

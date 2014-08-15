@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import backend.Movie;
 
@@ -14,44 +16,55 @@ public class DbManager {
 
     public static DBHelper db;
     public static ArrayList<Movie> favorites;
+    public static boolean isInitialized=false;
+
+    public static Comparator<Movie> comparator = new Comparator<Movie>() {
+        public int compare(Movie m1, Movie m2) {
+            return m1.compareTo(m2);
+        }
+    };
 
 
     public static void initialize(Context context){
         db=new DBHelper(context);
         favorites=db.read();
+        isInitialized=true;
+        Collections.sort(favorites);
     }
+
 
     public static void close(){
         db.write(favorites);
     }
 
-    public static void add(Movie movie){
-        if(!search(movie))
-            favorites.add(movie);
+    public static void add(Movie movie) {
+        if(isInitialized){
+            if(search(movie)<0){
+                favorites.add(movie);
+                Collections.sort(favorites);
+            }
+
+        }
     }
 
-    public static boolean search(Movie movie){
-        for(int i=0;i<favorites.size();++i){
-            Log.v("i:",""+i);
-            Log.v("favorites.get(i):",favorites.get(i).id+"");
-            Log.v("movie.id",movie.id);
-            if(favorites.get(i).id.equals(movie.id)){
-                return true;
-            }
+
+    public static int  search(Movie movie) {
+        if(isInitialized){
+            int index=Collections.binarySearch(favorites,movie,comparator);
+            Log.v("search movie title:",movie.title);
+            Log.v("search movie index",""+index);
+            return index;
         }
-        return false;
+        return -1;
     }
 
-    public static void delete(Movie movie){
-        for(int i=0;i<favorites.size();++i){
-            Log.v("i:",""+i);
-            Log.v("favorites.get(i):",favorites.get(i).id+"");
-            Log.v("movie.id",movie.id);
-            if(favorites.get(i).id.equals(movie.id)){
-                favorites.remove(i);
-                return;
-            }
+    //Precondition: initialize()
+    public static void delete(Movie movie) {
+        int index=search(movie);
+        if(index>=0){
+            favorites.remove(index);
         }
+
     }
 
 }

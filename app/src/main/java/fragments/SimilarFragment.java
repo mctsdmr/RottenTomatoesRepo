@@ -42,10 +42,6 @@ public class SimilarFragment extends Fragment implements GenericDownloader.Async
         String request=args.getString(MyConstants.SEARCH_SIMILAR_REQUEST);
         Log.v("similar request:", request);
 
-        /*Downloader downloader=new Downloader();
-        downloader.setDelegate(this);
-        downloader.execute(request);*/
-
         GenericDownloader downloader=new GenericDownloader();
         downloader.setType(GenericDownloader.HttpType.GET);
         downloader.setDelegate(this);
@@ -58,59 +54,9 @@ public class SimilarFragment extends Fragment implements GenericDownloader.Async
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView=inflater.inflate(R.layout.fragment_similar, container, false);
-
-
-
-
         return rootView;
     }
 
-/*
-    @Override
-    public void downloadFinish(JSONObject jSONResponse, int successFlag, int total) {
-        if(successFlag==MyConstants.DOWNLOAD_FLAG_CORRECT){
-            Converter.convertMovieArray(jSONResponse,movies);
-            if(movies.size()==0){
-                rootView.setVisibility(View.GONE);
-                delegate.removeFragment();
-                return;
-            }
-            for(int i=0;i<movies.size();++i){
-                LinearLayout myLayout = (LinearLayout) rootView.findViewById(R.id.horizontalLinear);
-
-                ImageView image=new ImageView(getActivity());
-                LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(120 , LinearLayout.LayoutParams.MATCH_PARENT);
-                lp.setMargins(50,0,50,0);
-                image.setLayoutParams(lp);
-
-                final int position=i;
-                image.setOnClickListener(new View.OnClickListener() {
-                                             @Override
-                                             public void onClick(View v) {
-                                                 Intent movieActivity=new Intent(getActivity(), FullScreenMovieActivity.class);
-                                                 Bundle extras=new Bundle();
-                                                 Container container1=new Container(movies);
-                                                 extras.putSerializable(MyConstants.MOVIE_ARRAY,container1);
-                                                 extras.putInt(MyConstants.POSITION,position);
-                                                 movieActivity.putExtras(extras);
-                                                 startActivity(movieActivity);
-
-                                             }
-                                        });
-
-
-
-                        myLayout.addView(image);
-
-                Picasso.with(getActivity())
-                        .load(movies.get(i).posters.original)
-                        .placeholder(R.drawable.poster_default)
-                        .into(image);
-
-            }
-        }
-    }
-*/
     @Override
     public void downloadFinish(JSONObject jSONResponse, GenericDownloader.ResultType resultType1) {
         if(resultType1== GenericDownloader.ResultType.SUCCESSFUL){

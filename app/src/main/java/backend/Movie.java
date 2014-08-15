@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by erkanerol on 7/25/14.
  */
-public class Movie implements Serializable {
+public class Movie implements Serializable ,Comparable{
 
     private static final long serialVersionUID = -4570328251649313985L;
 
@@ -34,7 +34,16 @@ public class Movie implements Serializable {
     public AlternateIds alternate_ids;
     public Links links;
 
-
+    @Override
+    public int compareTo(Object another) {
+        Movie other=(Movie)another;
+        if(this.id.compareTo(other.id)>0)
+            return 1;
+        else if(this.id.compareTo(other.id)<0)
+            return -1;
+        else
+            return 0;
+    }
 }
 
 

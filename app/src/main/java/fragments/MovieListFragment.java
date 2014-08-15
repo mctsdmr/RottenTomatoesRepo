@@ -71,7 +71,7 @@ public class MovieListFragment extends Fragment implements GenericDownloader.Asy
             download();
         }
         else{
-            movies= DbManager.favorites;
+            movies= new ArrayList<Movie>(DbManager.favorites);
         }
 
     }

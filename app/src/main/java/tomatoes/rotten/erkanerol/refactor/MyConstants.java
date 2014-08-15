@@ -10,6 +10,7 @@ public class MyConstants {
     public static final int    MAIN_PAGE_COUNT=4;
 
 
+
     public static final String[] API_REQUEST={
             "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json",
             "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json",

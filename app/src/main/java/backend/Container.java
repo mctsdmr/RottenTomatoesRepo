@@ -3,11 +3,7 @@ package backend;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import backend.Movie;
 
-/**
- * Created by erkanerol on 8/5/14.
- */
 public class Container implements Serializable{
     public ArrayList<Movie> movies;
 
