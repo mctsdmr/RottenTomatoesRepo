@@ -28,6 +28,7 @@ import database.DbManager;
 import tomatoes.rotten.erkanerol.refactor.CastActivity;
 import tomatoes.rotten.erkanerol.refactor.MyConstants;
 import tomatoes.rotten.erkanerol.refactor.R;
+import util.Actions;
 
 /**
  * Created by erkanerol on 8/15/14.
@@ -103,10 +104,7 @@ public class ViewPlacer {
             imdb.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String url = "http://www.imdb.com/title/tt"+id;
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    context.startActivity(i);
+                    Actions.shareUrl(context,"http://www.imdb.com/title/tt"+id);
                 }
             });
         }

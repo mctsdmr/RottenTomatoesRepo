@@ -16,6 +16,7 @@ import backend.Actors;
 import backend.Converter;
 import adapters.CastListAdapter;
 import backend.GenericDownloader;
+import util.Connections;
 
 public class CastActivity extends Activity implements GenericDownloader.AsyncResponse {
 
@@ -27,9 +28,7 @@ public class CastActivity extends Activity implements GenericDownloader.AsyncRes
         Bundle args=getIntent().getExtras();
         String request=args.getString(MyConstants.CAST_KEY);
 
-        /*Downloader downloader=new Downloader();
-        downloader.setDelegate(this);
-        downloader.execute(request+"?"+MyConstants.API_KEY);*/
+        Connections.isNetworkConnected(this);
 
         GenericDownloader downloader=new GenericDownloader();
         downloader.setType(GenericDownloader.HttpType.GET);
@@ -53,24 +52,6 @@ public class CastActivity extends Activity implements GenericDownloader.AsyncRes
         int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
-/*
-    @Override
-    public void downloadFinish(JSONObject jSONResponse, int successFlag, int total) {
-        ProgressBar progressBar= (ProgressBar) findViewById(R.id.castDownloadProgress);
-        progressBar.setVisibility(View.GONE);
-
-        ListView castList=(ListView)findViewById(R.id.castList);
-        castList.setVisibility(View.VISIBLE);
-        castList.setDivider(null);
-        castList.setDividerHeight(0);
-
-        ArrayList<Actors> actors=new ArrayList<Actors>();
-        Converter.convertActorsArray(jSONResponse,actors);
-
-        CastListAdapter adapter=new CastListAdapter(this,actors);
-        castList.setAdapter(adapter);
-    }
-    */
 
     @Override
     public void downloadFinish(JSONObject jSONResponse, GenericDownloader.ResultType resultType1) {

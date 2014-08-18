@@ -37,4 +37,5 @@
     <string name="developer">Erkan Erol  \n Junior Android Developer \n Computer Engineering Student in Bogaizici University </string>
     <string name="contact">Contacts \n erkanerol92@gmail.com</string>
 
+    <string name="marketError">Could not open Android market, please install the market app </string>
 </resources>

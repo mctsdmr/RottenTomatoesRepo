@@ -33,6 +33,7 @@ import database.DbManager;
 import tomatoes.rotten.erkanerol.refactor.CastActivity;
 import tomatoes.rotten.erkanerol.refactor.MyConstants;
 import tomatoes.rotten.erkanerol.refactor.R;
+import util.Connections;
 
 
 public class MovieFragment extends Fragment implements SimilarFragment.SimilarInterface, GenericDownloader.AsyncResponse {
@@ -63,6 +64,7 @@ public class MovieFragment extends Fragment implements SimilarFragment.SimilarIn
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Connections.isNetworkConnected(getActivity());
         rootView=inflater.inflate(R.layout.fragment_movie,container,false);
         if(downloadState==MyConstants.DOWNLOAD_STATE_END){
             change();
@@ -81,6 +83,8 @@ public class MovieFragment extends Fragment implements SimilarFragment.SimilarIn
                     .replace(R.id.similarFragment, similar, "fragment")
                     .commit();
         }
+
+
         return rootView;
     }
 

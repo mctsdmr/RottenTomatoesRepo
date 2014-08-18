@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import backend.Container;
 import backend.Movie;
 import adapters.MovieFragmentPagerAdapter;
+import util.Actions;
 
 public class FullScreenMovieActivity extends FragmentActivity {
 
@@ -50,13 +51,10 @@ public class FullScreenMovieActivity extends FragmentActivity {
         if (id == R.id.action_share) {
             int position=viewPager.getCurrentItem();
             Movie movie=movies.get(position);
+
             String share=movie.title+" "+"http://www.rottentomatoes.com/m/"+movies.get(position).id+"   #rottentomatoes";
+            Actions.shareTextPlain(this,share);
 
-
-            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-            sharingIntent.setType("text/plain");
-            sharingIntent.putExtra(Intent.EXTRA_TEXT,share);
-            startActivity(sharingIntent);
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -36,6 +36,7 @@ import database.DbManager;
 import tomatoes.rotten.erkanerol.refactor.FullScreenMovieActivity;
 import tomatoes.rotten.erkanerol.refactor.MyConstants;
 import tomatoes.rotten.erkanerol.refactor.R;
+import util.Connections;
 
 
 public class MovieListFragment extends Fragment implements GenericDownloader.AsyncResponse {
@@ -118,6 +119,8 @@ public class MovieListFragment extends Fragment implements GenericDownloader.Asy
         mListView.setAdapter(adapter);
         fragmentState = MyConstants.FRAGMENT_STATE_ONVIEW;
 
+        Connections.isNetworkConnected(getActivity());
+
         return rootView;
 
     }
@@ -179,13 +182,12 @@ public class MovieListFragment extends Fragment implements GenericDownloader.Asy
     }
 
     public void download(){
-
-        GenericDownloader downloader=new GenericDownloader();
-        downloader.setType(GenericDownloader.HttpType.GET);
-        downloader.setDelegate(this);
-        createRequest(downloader);
-        downloadState = MyConstants.DOWNLOAD_STATE_WORK;
-        downloader.execute();
+            GenericDownloader downloader=new GenericDownloader();
+            downloader.setType(GenericDownloader.HttpType.GET);
+            downloader.setDelegate(this);
+            createRequest(downloader);
+            downloadState = MyConstants.DOWNLOAD_STATE_WORK;
+            downloader.execute();
     }
 
     public void onCreateViewForTypeOne() {
@@ -271,7 +273,6 @@ public class MovieListFragment extends Fragment implements GenericDownloader.Asy
     @Override
     public void downloadFinish(JSONObject jSONResponse, GenericDownloader.ResultType resultType1) {
         if(resultType1== GenericDownloader.ResultType.HTTP_ERROR){
-            Toast.makeText(getActivity(), getResources().getString(R.string.connectionError), Toast.LENGTH_LONG).show();
             return;
         }
         if(resultType1== GenericDownloader.ResultType.SUCCESSFUL){

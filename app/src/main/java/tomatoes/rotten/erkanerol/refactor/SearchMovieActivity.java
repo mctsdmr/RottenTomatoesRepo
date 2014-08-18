@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 
 import fragments.MovieListFragment;
+import util.Connections;
 
 public class SearchMovieActivity extends FragmentActivity {
 
@@ -20,6 +21,7 @@ public class SearchMovieActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_search_movie);
+        Connections.isNetworkConnected(this);
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();

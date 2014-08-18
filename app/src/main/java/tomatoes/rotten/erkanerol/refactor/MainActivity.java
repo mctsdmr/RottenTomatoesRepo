@@ -32,6 +32,7 @@ import fragments.MainFragment;
 import tomatoes.rotten.erkanerol.refactor.MyConstants;
 import tomatoes.rotten.erkanerol.refactor.R;
 import tomatoes.rotten.erkanerol.refactor.SearchMovieActivity;
+import util.Actions;
 
 
 public class    MainActivity extends FragmentActivity {
@@ -157,14 +158,7 @@ public class    MainActivity extends FragmentActivity {
                 break;
 
             case 2:
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("market://details?id=" + id_name));
-                if (!MyStartActivity(intent)) {
-                    intent.setData(Uri.parse("https://play.google.com/store/apps/details?id="+id_name));
-                    if (!MyStartActivity(intent)) {
-                        Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                Actions.openAppInMarket(this,id_name);
                 break;
             case 3:
                 final Dialog country=new Dialog(this);
@@ -206,17 +200,7 @@ public class    MainActivity extends FragmentActivity {
     }
 
 
-    private boolean MyStartActivity(Intent aIntent) {
-        try
-        {
-            startActivity(aIntent);
-            return true;
-        }
-        catch (ActivityNotFoundException e)
-        {
-            return false;
-        }
-    }
+
 
 
 
